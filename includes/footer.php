@@ -80,6 +80,7 @@
           <li><a href="services.php#ecommerce"><i class="fas fa-chevron-right" style="font-size:.55rem;color:var(--or)"></i> E-Commerce Solutions</a></li>
           <li><a href="services.php#seo"><i class="fas fa-chevron-right" style="font-size:.55rem;color:var(--or)"></i> SEO &amp; Marketing</a></li>
           <li><a href="services.php#shopify"><i class="fas fa-chevron-right" style="font-size:.55rem;color:var(--or)"></i> Shopify Development</a></li>
+          <li><a href="services.php#ai"><i class="fas fa-chevron-right" style="font-size:.55rem;color:var(--or)"></i> AI Solutions</a></li>
         </ul>
       </div>
 

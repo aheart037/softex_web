@@ -4,3 +4,5 @@ Thumbs.db
 # runtime
 error_log
 *.log
+# dev toolchain (sandbox-only, never shipped)
+.dev-tools/

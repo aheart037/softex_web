@@ -27,9 +27,13 @@ $services = [
    'desc'=>'Data-driven SEO and digital marketing campaigns that drive qualified traffic and deliver measurable ROI. We combine technical expertise with content strategy across all digital channels.',
    'points'=>['Technical & on-page SEO audits','Content strategy & creation','Google Ads & PPC management','Social media strategy & management','Monthly performance reporting']],
 
-  ['id'=>'shopify',  'obj'=>'shopify',  'icon'=>'🎨','title'=>'Shopify &amp; UI/UX Design',
+  ['id'=>'shopify',  'obj'=>'shopify', 'icon'=>'🎨','title'=>'Shopify &amp; UI/UX Design',
    'desc'=>'Expert Shopify development and user-centred design that blends aesthetics with functionality — intuitive interfaces that delight users and strengthen your brand at every touchpoint.',
    'points'=>['Custom Shopify themes & apps','Shopify Plus development','User research & persona mapping','Wireframing & interactive prototypes','Design systems & brand consistency']],
+
+  ['id'=>'ai',       'obj'=>'ai',      'icon'=>'🤖','title'=>'AI Solutions &amp; Automation',
+   'desc'=>'Intelligent systems that learn from your data and work alongside your team. From conversational chatbots and predictive analytics to computer vision and workflow automation — we design, train and deploy custom AI models that integrate natively with your products.',
+   'points'=>['AI chatbots & conversational NLP','Predictive analytics & forecasting','Computer vision & document processing','Custom ML model development','Workflow automation & AI integration']],
 ];
 ?>
 
@@ -44,7 +48,7 @@ $services = [
       <nav class="breadcrumb"><a href="index.php">Home</a><span class="sep"> › </span><span>Services</span></nav>
       <div class="eyebrow" style="margin:0 auto 1rem"><i class="fas fa-cogs"></i> What We Do</div>
       <h1 class="h1" style="margin-bottom:1rem">Our <span class="gradient-text">Services</span></h1>
-      <p class="lead" style="margin:0 auto">End-to-end digital solutions — from beautiful websites to enterprise software and e-commerce stores that convert.</p>
+      <p class="lead" style="margin:0 auto">End-to-end digital solutions — from beautiful websites to enterprise software, e-commerce stores and custom AI systems that convert.</p>
     </div>
   </div>
 </section>

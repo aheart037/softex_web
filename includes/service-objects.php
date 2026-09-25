@@ -99,6 +99,33 @@ if (!function_exists('render_service_object')) {
            . '<div class="sbar"></div>'
            . '</div>';
         break;
+
+      /* ── AI Solutions — layered neural network ───────────── */
+      case 'ai':
+        echo '<div class="nn3d">'
+           . '<div class="nn-core" aria-hidden="true"></div>'
+           . '<svg class="nn-web" viewBox="0 0 150 120" preserveAspectRatio="none" aria-hidden="true">'
+           . '<defs><linearGradient id="nnGrad" x1="0" y1="0" x2="1" y2="0">'
+           . '<stop offset="0" stop-color="#ff4d3e"/><stop offset="1" stop-color="#ffb648"/>'
+           . '</linearGradient></defs>'
+           /* input → hidden */
+           . '<line x1="16" y1="22" x2="75" y2="14"/><line x1="16" y1="22" x2="75" y2="45"/>'
+           . '<line x1="16" y1="22" x2="75" y2="75" class="hot"/><line x1="16" y1="22" x2="75" y2="106"/>'
+           . '<line x1="16" y1="60" x2="75" y2="14"/><line x1="16" y1="60" x2="75" y2="45" class="hot"/>'
+           . '<line x1="16" y1="60" x2="75" y2="75"/><line x1="16" y1="60" x2="75" y2="106"/>'
+           . '<line x1="16" y1="98" x2="75" y2="14"/><line x1="16" y1="98" x2="75" y2="45"/>'
+           . '<line x1="16" y1="98" x2="75" y2="75"/><line x1="16" y1="98" x2="75" y2="106" class="hot"/>'
+           /* hidden → output */
+           . '<line x1="75" y1="14" x2="134" y2="36"/><line x1="75" y1="14" x2="134" y2="84"/>'
+           . '<line x1="75" y1="45" x2="134" y2="36" class="hot"/><line x1="75" y1="45" x2="134" y2="84"/>'
+           . '<line x1="75" y1="75" x2="134" y2="36"/><line x1="75" y1="75" x2="134" y2="84" class="hot"/>'
+           . '<line x1="75" y1="106" x2="134" y2="36"/><line x1="75" y1="106" x2="134" y2="84"/>'
+           . '</svg>'
+           . '<span class="nn-node in1"></span><span class="nn-node in2"></span><span class="nn-node in3"></span>'
+           . '<span class="nn-node h1"></span><span class="nn-node h2"></span><span class="nn-node h3"></span><span class="nn-node h4"></span>'
+           . '<span class="nn-node o1"></span><span class="nn-node o2"></span>'
+           . '</div>';
+        break;
     }
 
     echo '</div></div>';

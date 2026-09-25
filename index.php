@@ -221,6 +221,22 @@ require_once 'includes/service-objects.php';
         <a href="services.php#<?= $obj ?>" class="svc-more">Learn more <i class="fas fa-arrow-right"></i></a>
       </div>
       <?php endforeach; ?>
+
+      <?php /* Featured AI card — full-width highlight with the neural-network object */ ?>
+      <div class="svc-card svc-ai-wide" data-tilt data-tilt-max="3" data-reveal data-delay="2">
+        <div class="svc-glow" aria-hidden="true"></div>
+        <div class="svc-ai-obj">
+          <?php render_service_object('ai'); ?>
+        </div>
+        <div class="svc-ai-text">
+          <h3 class="svc-title">AI Solutions &amp; Automation <span class="svc-ai-badge">New</span></h3>
+          <p class="svc-desc">Intelligent systems that learn from your data — conversational chatbots, predictive analytics, computer vision and custom machine-learning models, integrated natively into the products we build for you.</p>
+          <div class="svc-ai-tags" aria-label="AI capabilities">
+            <span>Chatbots &amp; NLP</span><span>Predictive Analytics</span><span>Computer Vision</span><span>Process Automation</span>
+          </div>
+          <a href="services.php#ai" class="svc-more">Explore AI solutions <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
