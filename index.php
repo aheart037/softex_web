@@ -224,6 +224,9 @@ require_once 'includes/service-objects.php';
 
       <?php /* Featured AI card — full-width highlight with the neural-network object */ ?>
       <div class="svc-card svc-ai-wide" data-tilt data-tilt-max="3" data-reveal data-delay="2">
+        <div class="svc-ai-bg" aria-hidden="true">
+          <img src="assets/ai/card-bg.webp" alt="" loading="lazy" width="960" height="540">
+        </div>
         <div class="svc-glow" aria-hidden="true"></div>
         <div class="svc-ai-obj">
           <?php render_service_object('ai'); ?>
