@@ -72,7 +72,7 @@ $services = [
       <div class="split-visual svc-figure" data-reveal data-delay="2">
         <?php if ($s['id'] === 'ai'): ?>
         <div class="fig-ai-bg" aria-hidden="true">
-          <img src="assets/ai/stage.webp" alt="" loading="lazy" width="880" height="660">
+          <img src="assets/ai/stage-ai.webp" alt="" loading="lazy" width="880" height="660">
         </div>
         <?php endif; ?>
         <?php render_service_object($s['obj'], true); ?>
@@ -82,35 +82,6 @@ $services = [
   </div>
 </section>
 <?php endforeach; ?>
-
-<!-- FUTURE-TECH SHOWCASE — dynamic imagery strip -->
-<section class="section tech-show" aria-label="Technologies we harness">
-  <div class="wrap">
-    <div class="center" data-reveal>
-      <div class="eyebrow"><i class="fas fa-microchip"></i> Future-Ready Technology</div>
-      <h2 class="h2" style="margin-bottom:1rem">Powered by <span class="gradient-text">Modern AI</span></h2>
-      <p class="lead">From neural networks and computer vision to conversational agents and intelligent automation — we build on the technologies shaping tomorrow.</p>
-    </div>
-  </div>
-  <div class="tech-show-clip" data-reveal>
-    <div class="tech-show-row">
-      <?php
-      $techImgs = [
-        ['tech-neural',    'Neural Networks'],
-        ['tech-vision',    'Computer Vision'],
-        ['tech-robot',     'AI Agents'],
-        ['tech-holo',      'Data Intelligence'],
-        ['tech-automation','Intelligent Automation'],
-      ];
-      foreach (array_merge($techImgs, $techImgs) as $ti => [$img, $cap]): ?>
-      <figure class="tech-show-card"<?= $ti >= count($techImgs) ? ' aria-hidden="true"' : '' ?>>
-        <img src="assets/ai/<?= $img ?>.webp" alt="<?= $cap ?> — Softex Technologies" loading="lazy" width="480" height="320">
-        <figcaption><span><?= $cap ?></span></figcaption>
-      </figure>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
 
 <!-- PROCESS — connected 3D workflow -->
 <section class="section section-bg1" style="position:relative">

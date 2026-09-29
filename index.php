@@ -48,8 +48,12 @@ require_once 'includes/service-objects.php';
         </div>
       </div>
 
-      <!-- 3D stage: core scene (canvas behind) + holographic panel + depth chips -->
+      <!-- 3D stage: animated AI image (backdrop) + core scene (canvas) + holographic panel + depth chips -->
       <div class="hero-visual" data-reveal data-delay="2" aria-hidden="true">
+        <div class="hero-ai-media">
+          <img src="assets/ai/hero-ai.webp" alt="" loading="eager" fetchpriority="high" width="960" height="1000">
+          <span class="ai-sweep"></span>
+        </div>
         <div class="hero-stage"><span class="core-anchor" id="coreAnchor"></span></div>
 
         <div class="hero-panel" data-tilt data-tilt-max="5">
@@ -116,6 +120,9 @@ require_once 'includes/service-objects.php';
 
       <div class="split-visual" data-reveal="left">
         <div class="split-scene">
+          <div class="scene-ai-bg" aria-hidden="true">
+            <img src="assets/ai/whoweare-ai.webp" alt="" loading="lazy" width="880" height="660">
+          </div>
           <div class="scene" data-scene="orb" data-orb-labels aria-hidden="true">
             <div class="scene-fallback"></div>
           </div>
@@ -214,6 +221,9 @@ require_once 'includes/service-objects.php';
       ];
       foreach($svcs as $i=>[$obj,$ico,$title,$desc]): ?>
       <div class="svc-card" data-tilt data-tilt-max="6" data-reveal data-delay="<?= ($i%3)+1 ?>">
+        <div class="svc-media" aria-hidden="true">
+          <img src="assets/ai/svc-<?= $obj ?>.webp" alt="" loading="lazy" width="480" height="320">
+        </div>
         <div class="svc-glow" aria-hidden="true"></div>
         <?php render_service_object($obj); ?>
         <h3 class="svc-title"><?= $title ?></h3>
@@ -225,7 +235,7 @@ require_once 'includes/service-objects.php';
       <?php /* Featured AI card — full-width highlight with the neural-network object */ ?>
       <div class="svc-card svc-ai-wide" data-tilt data-tilt-max="3" data-reveal data-delay="2">
         <div class="svc-ai-bg" aria-hidden="true">
-          <img src="assets/ai/card-bg.webp" alt="" loading="lazy" width="960" height="540">
+          <img src="assets/ai/stage-ai.webp" alt="" loading="lazy" width="880" height="660">
         </div>
         <div class="svc-glow" aria-hidden="true"></div>
         <div class="svc-ai-obj">
