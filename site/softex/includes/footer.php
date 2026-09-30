@@ -332,13 +332,17 @@ main{position:relative;z-index:1}
 }
 .header-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:var(--hh)}
 .brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.brand-mark{
-  width:40px;height:40px;border-radius:12px;
-  display:grid;place-items:center;
-  background:var(--logo-g);color:#160400;
-  font-family:var(--fh);font-weight:700;font-size:1.25rem;
-  box-shadow:0 8px 26px -10px rgba(242,13,90,.85);
+.brand-logo{
+  display:block;width:46px;height:46px;object-fit:cover;
+  border-radius:12px;border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 10px 28px -12px rgba(242,13,90,.55);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
 }
+.brand:hover .brand-logo{
+  transform:translateY(-2px) scale(1.04);
+  box-shadow:0 14px 32px -12px rgba(242,13,90,.75);
+}
+.site-footer .brand-logo{width:42px;height:42px}
 .brand-text{font-family:var(--fh);font-weight:700;font-size:1.12rem;letter-spacing:-.01em;line-height:1;color:var(--t1)}
 .brand-text em{
   display:block;font-style:normal;
@@ -1123,7 +1127,7 @@ main{position:relative;z-index:1}
       <!-- Brand -->
       <div class="footer-brand">
         <a href="index.php" class="brand" aria-label="Softex Technologies">
-          <span class="brand-mark" aria-hidden="true">S</span>
+          <img class="brand-logo" src="assets/logo.jpg" alt="Softex Technologies logo" width="42" height="42">
           <span class="brand-text">Softex<em>Technologies</em></span>
         </a>
         <p>Building world-class digital products since 2015 — from AI-powered web apps to enterprise software and high-converting e-commerce stores. Your vision, our expertise.</p>
@@ -1637,178 +1641,147 @@ function buildCubeCluster(host) {
 
 /* ════════════════════════════════════════════
    SCENE 7 · AI BRAIN
-   A procedural neural brain — 180 nodes inside a
-   sphere joined by line segments, a pulsing
-   emissive core with additive halos, 40 orbiting
-   particles and three thin torus rings. Replaces
-   any static "team photo" style imagery.
+   A procedural artificial brain — two hemisphere
+   lobes with a wrinkled cortex of gradient-tinted
+   neurons, joined by synapse lines with live
+   signal pulses travelling between them. No
+   rings, no orbiters — pure AI. Replaces any
+   static "team photo" style imagery.
 ════════════════════════════════════════════ */
 function buildAiBrain(host) {
   const scene = new THREE.Scene();
   const cam = makeCamera(host, 9.5);
   const group = new THREE.Group();
+  group.rotation.z = -0.05;
   scene.add(group);
 
-  /* lights */
-  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-  const l1 = new THREE.PointLight(PINK, 90, 30);  l1.position.set(5, 5, 7);    scene.add(l1);
-  const l2 = new THREE.PointLight(GOLD, 70, 30);  l2.position.set(-6, -4, 5);  scene.add(l2);
-  const l3 = new THREE.PointLight(CYAN, 60, 30);  l3.position.set(3, -6, -6);  scene.add(l3);
+  /* ── brain proportions: hemisphere radii (width/height/length) ── */
+  const LobeR = new THREE.Vector3(1.28, 1.98, 2.78);
+  const GAP = 1.40;        /* hemisphere offset — leaves the midline fissure */
+  const WRINKLE = 0.13;    /* cortex fold depth (outward only) */
 
-  /* outer + middle wire shells */
-  const shell = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(3.05, 3),
-    new THREE.MeshBasicMaterial({ color: CORAL, wireframe: true, transparent: true, opacity: 0.10 })
-  );
-  const midShell = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(2.6, 2),
-    new THREE.MeshBasicMaterial({ color: PINK, wireframe: true, transparent: true, opacity: 0.16 })
-  );
-  group.add(shell, midShell);
+  const lobePoint = side => {
+    const d = new THREE.Vector3().randomDirection();
+    /* cortex folds — subtle wrinkle displacement */
+    const n = Math.sin(d.x * 9.3) * Math.sin(d.y * 7.1) * Math.sin(d.z * 8.4);
+    const r = 1 + (n * 0.5 + 0.5) * WRINKLE;
+    return new THREE.Vector3(
+      side * GAP + d.x * LobeR.x * r,
+      d.y * LobeR.y * r,
+      d.z * LobeR.z * r
+    );
+  };
 
-  /* pulsing emissive core + additive halos */
-  const core = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(1.0, 3),
-    new THREE.MeshStandardMaterial({
-      color: 0x180410, roughness: 0.2, metalness: 0.9,
-      emissive: new THREE.Color(PINK).multiplyScalar(0.85),
-      emissiveIntensity: 1.1
-    })
-  );
-  const halo = new THREE.Mesh(
-    new THREE.SphereGeometry(1.35, 24, 24),
-    new THREE.MeshBasicMaterial({ color: PINK, transparent: true, opacity: 0.18, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  const halo2 = new THREE.Mesh(
-    new THREE.SphereGeometry(1.8, 24, 24),
-    new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.08, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  group.add(core, halo, halo2);
-
-  /* 180 neural nodes distributed inside the sphere */
-  const NODE_COUNT = 180;
-  const nodePositions = [];
-  for (let i = 0; i < NODE_COUNT; i++) {
-    const v = new THREE.Vector3().randomDirection();
-    v.multiplyScalar(Math.pow(Math.random(), 0.6) * 2.75);
-    nodePositions.push(v);
+  /* ── dark cerebral mass — gives the cortex a solid silhouette ── */
+  const massMat = new THREE.MeshBasicMaterial({ color: 0x0a0714 });
+  for (const side of [-1, 1]) {
+    const mass = new THREE.Mesh(new THREE.SphereGeometry(1, 48, 32), massMat);
+    mass.scale.set(LobeR.x, LobeR.y, LobeR.z);
+    mass.position.x = side * GAP;
+    group.add(mass);
   }
-  const nodeGeo = new THREE.BufferGeometry();
-  const nodePos = new Float32Array(NODE_COUNT * 3);
-  const nodeCol = new Float32Array(NODE_COUNT * 3);
-  const nodePalette = [PINK, CORAL, ORANGE, GOLD, CYAN].map(c => new THREE.Color(c));
-  for (let i = 0; i < NODE_COUNT; i++) {
-    const v = nodePositions[i];
-    nodePos.set([v.x, v.y, v.z], i * 3);
-    const c = nodePalette[i % nodePalette.length];
+
+  /* ── cortex — neurons on both lobes, tinted along the logo gradient ── */
+  const NODES = 340;
+  const pts = [];
+  const nodePos = new Float32Array(NODES * 3);
+  const nodeCol = new Float32Array(NODES * 3);
+  for (let i = 0; i < NODES; i++) {
+    const side = i % 2 === 0 ? 1 : -1;
+    const p = lobePoint(side);
+    pts.push(p);
+    nodePos.set([p.x, p.y, p.z], i * 3);
+    const t = (p.z / LobeR.z + 1) / 2;                  /* front → back */
+    const c = gradAt(0.12 + 0.76 * t + Math.random() * 0.08);
     nodeCol.set([c.r, c.g, c.b], i * 3);
   }
+  const nodeGeo = new THREE.BufferGeometry();
   nodeGeo.setAttribute('position', new THREE.BufferAttribute(nodePos, 3));
   nodeGeo.setAttribute('color', new THREE.BufferAttribute(nodeCol, 3));
-  const nodePoints = new THREE.Points(nodeGeo, new THREE.PointsMaterial({
-    size: 0.13, vertexColors: true, transparent: true, opacity: 0.95,
+  const cortex = new THREE.Points(nodeGeo, new THREE.PointsMaterial({
+    size: 0.115, vertexColors: true, transparent: true, opacity: 0.95,
     sizeAttenuation: true, blending: THREE.AdditiveBlending, depthWrite: false
   }));
-  group.add(nodePoints);
+  group.add(cortex);
 
-  /* neural connections — near links (magenta) + mid links (gold) */
-  const segments = [], segments2 = [];
-  for (let i = 0; i < NODE_COUNT; i++) {
-    for (let j = i + 1; j < NODE_COUNT; j++) {
-      const d = nodePositions[i].distanceTo(nodePositions[j]);
-      if (d < 1.05) segments.push(nodePositions[i].clone(), nodePositions[j].clone());
-      else if (d < 1.5 && (i % 2 === 0) && (j % 3 === 0)) segments2.push(nodePositions[i].clone(), nodePositions[j].clone());
+  /* ── synapses — near-neighbour connections ── */
+  const edges = [];
+  const segPts = [];
+  const THRESH = 0.95;
+  for (let i = 0; i < NODES; i++) {
+    for (let j = i + 1; j < NODES; j++) {
+      if (pts[i].distanceTo(pts[j]) < THRESH) {
+        edges.push([i, j]);
+        segPts.push(pts[i], pts[j]);
+      }
     }
   }
-  const neuralLines = new THREE.LineSegments(
-    new THREE.BufferGeometry().setFromPoints(segments),
-    new THREE.LineBasicMaterial({ color: PINK, transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  const neuralLines2 = new THREE.LineSegments(
-    new THREE.BufferGeometry().setFromPoints(segments2),
-    new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: 0.08, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  group.add(neuralLines, neuralLines2);
+  const synGeo = new THREE.BufferGeometry().setFromPoints(segPts);
+  const synMat = new THREE.LineBasicMaterial({
+    color: PINK, transparent: true, opacity: 0.13,
+    blending: THREE.AdditiveBlending, depthWrite: false
+  });
+  group.add(new THREE.LineSegments(synGeo, synMat));
 
-  /* 40 orbiting data particles */
-  const ORB_COUNT = 40;
-  const orbGeo = new THREE.BufferGeometry();
-  const orbPos = new Float32Array(ORB_COUNT * 3);
-  const orbData = [];
-  for (let i = 0; i < ORB_COUNT; i++) {
-    const r = rand(3.6, 4.6);
-    const a = Math.random() * Math.PI * 2;
-    const y = rand(-1.6, 1.6);
-    orbPos.set([Math.cos(a) * r, y, Math.sin(a) * r], i * 3);
-    orbData.push({
-      r, a, y,
-      speed: rand(0.15, 0.45) * (Math.random() < 0.5 ? -1 : 1),
-      floatAmp: rand(0.2, 0.5),
-      phase: rand(0, Math.PI * 2)
-    });
-  }
-  orbGeo.setAttribute('position', new THREE.BufferAttribute(orbPos, 3));
-  const orbParticles = new THREE.Points(orbGeo, new THREE.PointsMaterial({
-    color: GOLD, size: 0.08, transparent: true, opacity: 0.9,
+  /* ── live signals — bright pulses travelling along the synapses ── */
+  const SIG = 30;
+  const sigPos = new Float32Array(SIG * 3);
+  const sigCol = new Float32Array(SIG * 3);
+  const sigGeo = new THREE.BufferGeometry();
+  sigGeo.setAttribute('position', new THREE.BufferAttribute(sigPos, 3));
+  sigGeo.setAttribute('color', new THREE.BufferAttribute(sigCol, 3));
+  const signals = new THREE.Points(sigGeo, new THREE.PointsMaterial({
+    size: 0.17, vertexColors: true, transparent: true, opacity: 0.95,
     sizeAttenuation: true, blending: THREE.AdditiveBlending, depthWrite: false
   }));
-  group.add(orbParticles);
+  group.add(signals);
 
-  /* three thin torus rings */
-  const ring1 = new THREE.Mesh(
-    new THREE.TorusGeometry(3.6, 0.012, 6, 160),
-    new THREE.MeshBasicMaterial({ color: PINK, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  ring1.rotation.x = Math.PI / 2.2; ring1.rotation.z = 0.3;
-  const ring2 = new THREE.Mesh(
-    new THREE.TorusGeometry(4.15, 0.008, 6, 160),
-    new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.4, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  ring2.rotation.x = Math.PI / 1.8; ring2.rotation.y = 0.5;
-  const ring3 = new THREE.Mesh(
-    new THREE.TorusGeometry(3.9, 0.006, 6, 160),
-    new THREE.MeshBasicMaterial({ color: CYAN, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending, depthWrite: false })
-  );
-  ring3.rotation.x = 0.9; ring3.rotation.y = -0.7;
-  group.add(ring1, ring2, ring3);
+  const sigPalette = [CYAN2, GOLD, 0xffffff, CORAL].map(c => new THREE.Color(c));
+  const pulses = [];
+  const respawn = (s, t) => {
+    s.e  = edges[(Math.random() * edges.length) | 0];
+    s.t0 = t;
+    s.sp = rand(0.45, 1.3);
+    s.c  = sigPalette[(Math.random() * sigPalette.length) | 0];
+  };
+  for (let i = 0; i < SIG; i++) { const s = {}; respawn(s, 0); pulses.push(s); }
 
-  const dust = makeDust(scene, 120, 6);
+  /* ── soft halo — the "mind" glow ── */
+  const halo = new THREE.Mesh(
+    new THREE.SphereGeometry(1, 32, 24),
+    new THREE.MeshBasicMaterial({
+      color: PINK, transparent: true, opacity: 0.05,
+      blending: THREE.AdditiveBlending, depthWrite: false
+    })
+  );
+  halo.scale.setScalar(3.6);
+  group.add(halo);
+
+  const dust = makeDust(scene, 90, 5.5);
 
   return {
     scene, cam,
     update(t) {
       group.rotation.y = t * 0.22;
-      group.rotation.x = Math.sin(t * 0.35) * 0.14;
-      group.rotation.z = Math.sin(t * 0.22) * 0.06;
+      group.rotation.x = Math.sin(t * 0.3) * 0.08;
+      group.position.y = Math.sin(t * 0.5) * 0.18;
 
-      shell.rotation.y = -t * 0.08;
-      shell.rotation.x = t * 0.05;
-      midShell.rotation.y = t * 0.14;
-      midShell.rotation.z = -t * 0.08;
+      cortex.material.opacity = 0.8 + Math.sin(t * 1.9) * 0.15;
+      synMat.opacity = 0.10 + Math.sin(t * 1.3) * 0.045;
+      halo.scale.setScalar(3.6 + Math.sin(t * 1.1) * 0.25);
 
-      const pulse = 1 + Math.sin(t * 2.2) * 0.08;
-      core.scale.setScalar(pulse);
-      core.rotation.y = t * 0.5;
-      core.rotation.x = t * 0.3;
-      halo.scale.setScalar(1 + Math.sin(t * 2.2) * 0.12);
-      halo2.scale.setScalar(1 + Math.sin(t * 1.6 + 0.8) * 0.08);
-
-      nodePoints.rotation.y = -t * 0.06;
-      neuralLines.rotation.y = -t * 0.06;
-      neuralLines2.rotation.y = -t * 0.06;
-
-      ring1.rotation.z = t * 0.35;
-      ring2.rotation.z = -t * 0.28;
-      ring3.rotation.x = 0.9 + Math.sin(t * 0.4) * 0.15;
-
-      const posAttr = orbGeo.attributes.position;
-      for (let i = 0; i < ORB_COUNT; i++) {
-        const d = orbData[i];
-        const a = d.a + t * d.speed;
-        const y = d.y + Math.sin(t * 0.8 + d.phase) * d.floatAmp;
-        posAttr.setXYZ(i, Math.cos(a) * d.r, y, Math.sin(a) * d.r);
+      const pa = sigGeo.attributes.position;
+      const ca = sigGeo.attributes.color;
+      for (let i = 0; i < SIG; i++) {
+        const s = pulses[i];
+        let p = (t - s.t0) * s.sp;
+        if (p >= 1 || p < 0) { respawn(s, t); p = 0; }
+        const a = pts[s.e[0]], b = pts[s.e[1]];
+        pa.setXYZ(i, a.x + (b.x - a.x) * p, a.y + (b.y - a.y) * p, a.z + (b.z - a.z) * p);
+        ca.setXYZ(i, s.c.r, s.c.g, s.c.b);
       }
-      posAttr.needsUpdate = true;
+      pa.needsUpdate = true;
+      ca.needsUpdate = true;
 
       dust.rotation.y = t * 0.012;
     }

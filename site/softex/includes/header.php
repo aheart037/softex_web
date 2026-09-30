@@ -176,7 +176,7 @@ if (isset($bc_map[$_pg])) {
     <div class="header-inner">
 
       <a href="index.php" class="brand" aria-label="Softex Technologies — Home">
-        <span class="brand-mark" aria-hidden="true">S</span>
+        <img class="brand-logo" src="assets/logo.jpg" alt="Softex Technologies logo" width="46" height="46">
         <span class="brand-text">Softex<em>Technologies</em></span>
       </a>
 
